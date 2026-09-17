@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediSOS — Emergency Health Card</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">+</span>
+      <div>
+        <h1>MediSOS</h1>
+        <p>Emergency SOS Health Card</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="mainNav">
+    <button type="button" class="nav-btn active" data-section="home">Home</button>
+    <button type="button" class="nav-btn" data-section="create">Create Card</button>
+    <button type="button" class="nav-btn" data-section="card">Emergency Card</button>
+  </nav>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="section active">
+      <div class="hero-card">
+        <p class="eyebrow">Healthcare, simplified</p>
+        <h2>Your medical details, ready in an emergency.</h2>
+        <p class="lead">
+          Create a digital SOS health card once. First responders and loved ones
+          can scan your QR code to see blood group, allergies, and who to call.
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary" id="goCreateBtn">Create Health Card</button>
+          <button type="button" class="btn btn-secondary" id="goCardBtn">View My Card</button>
+        </div>
+      </div>
+
+      <ul class="feature-list">
+        <li>
+          <span class="feature-icon" aria-hidden="true">♥</span>
+          <div>
+            <h3>Saved on this device</h3>
+            <p>Your card is stored in the browser with localStorage. Refreshing the page keeps your information.</p>
+          </div>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">▣</span>
+          <div>
+            <h3>QR for helpers</h3>
+            <p>Generate a QR code that opens the emergency card on another phone.</p>
+          </div>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">☎</span>
+          <div>
+            <h3>One-tap call</h3>
+            <p>A large button dials your emergency contact using a tel: link.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CREATE CARD -->
+    <section id="create" class="section">
+      <h2 class="section-title">Create Health Card</h2>
+      <p class="section-sub">Enter emergency medical information. You can update it anytime.</p>
+
+      <form id="healthForm" class="card-form">
+        <label>
+          Full Name
+          <input type="text" id="fullName" name="fullName" required placeholder="e.g. Priya Sharma" autocomplete="name">
+        </label>
+
+        <label>
+          Age
+          <input type="number" id="age" name="age" required min="0" max="120" placeholder="e.g. 34">
+        </label>
+
+        <label>
+          Blood Group
+          <select id="bloodGroup" name="bloodGroup" required>
+            <option value="">Select blood group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </label>
+
+        <label>
+          Allergies
+          <textarea id="allergies" name="allergies" rows="2" placeholder="e.g. Penicillin, peanuts"></textarea>
+        </label>
+
+        <label>
+          Medical Conditions
+          <textarea id="conditions" name="conditions" rows="2" placeholder="e.g. Asthma, diabetes"></textarea>
+        </label>
+
+        <label>
+          Current Medications
+          <textarea id="medications" name="medications" rows="2" placeholder="e.g. Metformin 500mg"></textarea>
+        </label>
+
+        <label>
+          Emergency Contact Name
+          <input type="text" id="contactName" name="contactName" required placeholder="e.g. Rohan Sharma" autocomplete="name">
+        </label>
+
+        <label>
+          Emergency Contact Phone Number
+          <input type="tel" id="contactPhone" name="contactPhone" required placeholder="e.g. +91 98765 43210" autocomplete="tel">
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block">Generate Card</button>
+      </form>
+    </section>
+
+    <!-- EMERGENCY CARD -->
+    <section id="card" class="section">
+      <h2 class="section-title" id="cardHeading">Emergency Card</h2>
+      <p class="section-sub" id="cardSub">Show this card or let someone scan the QR code.</p>
+
+      <div id="emptyCard" class="empty-state">
+        <p>No health card saved yet.</p>
+        <button type="button" class="btn btn-primary" id="emptyCreateBtn">Create Health Card</button>
+      </div>
+
+      <article id="emergencyCard" class="sos-card hidden">
+        <header class="sos-header">
+          <span class="sos-badge">EMERGENCY</span>
+          <h3 id="displayName">Patient name</h3>
+          <p class="sos-age">Age <span id="displayAge">—</span></p>
+        </header>
+
+        <div class="highlight-row">
+          <div class="highlight blood">
+            <span class="highlight-label">Blood Group</span>
+            <strong id="displayBlood">—</strong>
+          </div>
+          <div class="highlight allergy">
+            <span class="highlight-label">Allergies</span>
+            <strong id="displayAllergies">—</strong>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <h4>Medical Conditions</h4>
+          <p id="displayConditions">—</p>
+        </div>
+
+        <div class="info-block">
+          <h4>Current Medications</h4>
+          <p id="displayMedications">—</p>
+        </div>
+
+        <div class="info-block contact-block">
+          <h4>Emergency Contact</h4>
+          <p id="displayContactName">—</p>
+          <p id="displayContactPhone">—</p>
+        </div>
+
+        <a id="callBtn" class="btn btn-call" href="tel:">CALL EMERGENCY CONTACT</a>
+
+        <div class="qr-section" id="qrSection">
+          <h4>Scan to View Emergency Card</h4>
+          <p class="qr-lead">Use a phone camera to open this emergency card on another device.</p>
+          <div class="qr-frame">
+            <div id="qrcode" aria-label="QR code for this emergency card"></div>
+          </div>
+          <p id="fileHint" class="hint hidden">
+            Phone cameras cannot open a local file. Put these three files on any free host
+            (GitHub Pages, Netlify Drop) or open this app on your computer using a local
+            network address such as http://192.168.x.x, then scan that QR code.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p class="disclaimer">
+      Disclaimer: This card provides emergency information only and is not medical advice.
+      Always seek professional medical help in an emergency.
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
